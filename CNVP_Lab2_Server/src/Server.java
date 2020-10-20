@@ -25,14 +25,15 @@ public class Server {
                 InetAddress address = receivePacket.getAddress();
                 int port = receivePacket.getPort();
 
-                DatagramPacket sendPacket = new DatagramPacket(buffer, buffer.length, address, port);
-                String received = new String(sendPacket.getData(), 0, sendPacket.getLength());  //смещение для буфера,по которому ищется первый byte,
+
+                String received = new String(receivePacket.getData(), 0, receivePacket.getLength());  //смещение для буфера,по которому ищется первый byte,
                 // затем начиная с него считываем количество byte длиной length.
 
                 if (received.equals("end")) {
                     running = false;
                     continue;
                 }
+                DatagramPacket sendPacket = new DatagramPacket(buffer, buffer.length, address, port);
                 socket.send(sendPacket);
             } catch (IOException exception) {
                 exception.printStackTrace();
